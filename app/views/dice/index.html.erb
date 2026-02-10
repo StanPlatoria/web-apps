@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+  :root {
+    --felt-green: #076324;
+    --casino-red: #d63031;
+    --casino-black: #1a1a1a;
+    --gold: #f1c40f;
+    --wood: #5d4037;
+  }
+
+  body, html {
+    margin: 0; padding: 0; height: 100%;
+    background-color: var(--felt-green);
+    background-image: radial-gradient(circle, #0a8434 0%, #054d1c 100%);
+    display: flex; justify-content: center; align-items: center;
+    font-family: 'serif'; overflow: hidden; color: white;
+  }
+
+  .casino-container { text-align: center; width: 95%; max-width: 800px; }
+
+  /* Neon Title */
+  .grand-title {
+    font-size: 3rem;
+    color: #fff;
+    text-shadow: 0 0 10px var(--gold), 0 0 20px var(--gold);
+    letter-spacing: 6px;
+    margin-bottom: 1rem;
+    font-family: 'Arial Black', sans-serif;
+  }
+
+  .table-felt {
+    background: rgba(0,0,0,0.2);
+    border: 12px solid var(--wood);
+    border-radius: 60px;
+    padding: 2.5rem 1rem;
+    box-shadow: inset 0 0 100px rgba(0,0,0,0.7), 0 25px 50px rgba(0,0,0,0.5);
+    position: relative;
+  }
+
+  .dice-grid {
+    display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin-bottom: 1.5rem;
+  }
+
+  /* Dice Styling */
+  .die {
+    width: 70px; height: 70px; background: white; border-radius: 10px;
+    display: grid; grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+    padding: 6px; box-sizing: border-box; box-shadow: 4px 4px 10px rgba(0,0,0,0.4);
+  }
+
+  .pip { background: var(--casino-black); border-radius: 50%; width: 12px; height: 12px; visibility: hidden; align-self: center; justify-self: center; }
+
+  @keyframes shake {
+    0% { transform: rotate(0deg); }
+    25% { transform: rotate(8deg) translateY(-5px); }
+    75% { transform: rotate(-8deg) translateY(5px); }
+    100% { transform: rotate(0deg); }
+  }
+  .rolling { animation: shake 0.1s infinite; }
+
+  /* Betting Controls */
+  .bet-options { display: flex; gap: 10px; justify-content: center; margin-bottom: 1.5rem; }
+  
+  .bet-btn {
+    padding: 10px 20px; border: 2px solid var(--gold); background: var(--casino-black);
+    color: var(--gold); border-radius: 5px; cursor: pointer; font-weight: bold; transition: 0.3s;
+  }
+
+  .bet-btn.active { background: var(--gold); color: black; }
+
+  .btn-roll {
+    background: linear-gradient(to bottom, var(--casino-red), #b32626);
+    color: white; border: 3px solid var(--gold);
+    padding: 15px 60px; font-size: 1.5rem; font-weight: bold;
+    border-radius: 50px; cursor: pointer; text-transform: uppercase;
+    box-shadow: 0 6px 0 #801a1a;
+  }
+
+  .btn-roll:active { transform: translateY(4px); box-shadow: 0 2px 0 #801a1a; }
+  .btn-roll:disabled { opacity: 0.5; filter: grayscale(1); }
+
+  #status-display { font-size: 2rem; color: #fff; margin-top: 1rem; min-height: 1.2em; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+
+  /* Pip Logic */
+  .v1 [data-p="5"], .v3 [data-p="5"], .v5 [data-p="5"] { visibility: visible; }
+  .v2 [data-p="1"], .v2 [data-p="9"], .v3 [data-p="1"], .v3 [data-p="9"], .v4 [data-p="1"], .v4 [data-p="9"], .v5 [data-p="1"], .v5 [data-p="9"], .v6 [data-p="1"], .v6 [data-p="9"] { visibility: visible; }
+  .v4 [data-p="3"], .v4 [data-p="7"], .v5 [data-p="3"], .v5 [data-p="7"], .v6 [data-p="3"], .v6 [data-p="7"] { visibility: visible; }
+  .v6 [data-p="4"], .v6 [data-p="6"] { visibility: visible; }
+</style>
+</head>
+<body>
+
+<div class="casino-container">
+  <div class="grand-title">ENTR-451 CASINO</div>
+  
+  <div class="table-felt">
+    <div class="dice-grid" id="dice-container">
+      <div id="die0" class="die v1"><div class="pip" data-p="1"></div><div class="pip" data-p="2"></div><div class="pip" data-p="3"></div><div class="pip" data-p="4"></div><div class="pip" data-p="5"></div><div class="pip" data-p="6"></div><div class="pip" data-p="7"></div><div class="pip" data-p="8"></div><div class="pip" data-p="9"></div></div>
+      <div id="die1" class="die v1"><div class="pip" data-p="1"></div><div class="pip" data-p="2"></div><div class="pip" data-p="3"></div><div class="pip" data-p="4"></div><div class="pip" data-p="5"></div><div class="pip" data-p="6"></div><div class="pip" data-p="7"></div><div class="pip" data-p="8"></div><div class="pip" data-p="9"></div></div>
+      <div id="die2" class="die v1"><div class="pip" data-p="1"></div><div class="pip" data-p="2"></div><div class="pip" data-p="3"></div><div class="pip" data-p="4"></div><div class="pip" data-p="5"></div><div class="pip" data-p="6"></div><div class="pip" data-p="7"></div><div class="pip" data-p="8"></div><div class="pip" data-p="9"></div></div>
+      <div id="die3" class="die v1"><div class="pip" data-p="1"></div><div class="pip" data-p="2"></div><div class="pip" data-p="3"></div><div class="pip" data-p="4"></div><div class="pip" data-p="5"></div><div class="pip" data-p="6"></div><div class="pip" data-p="7"></div><div class="pip" data-p="8"></div><div class="pip" data-p="9"></div></div>
+    </div>
+    
+    <div class="bet-options">
+      <button class="bet-btn active" onclick="setBet('low', this)">BET LOW (4-13)</button>
+      <button class="bet-btn" onclick="setBet('mid', this)">LUCKY 14</button>
+      <button class="bet-btn" onclick="setBet('high', this)">BET HIGH (15-24)</button>
+    </div>
+
+    <button id="rollBtn" class="btn-roll" onclick="playGame()">ROLL 'EM!</button>
+    <div id="status-display">Place your bet!</div>
+  </div>
+</div>
+
+<script>
+  let currentBet = 'low';
+
+  function setBet(type, btn) {
+    currentBet = type;
+    document.querySelectorAll('.bet-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
+
+  function playGame() <%=  %>{
+    const btn = document.getElementById('rollBtn');
+    const dice = document.querySelectorAll('.die');
+    const status = document.getElementById('status-display');
+    
+    btn.disabled = true;
+    status.innerText = "The wheel is spinning...";
+    status.style.color = "white";
+
+    dice.forEach(d => d.classList.add('rolling'));
+
+    let tumble = setInterval(() => {
+      dice.forEach(d => d.className = `die rolling v${Math.floor(Math.random()*6)+1}`);
+    }, 80);
+
+    setTimeout(() => {
+      clearInterval(tumble);
+      let total = 0;
+      dice.forEach(d => {
+        const val = Math.floor(Math.random()*6)+1;
+        d.className = `die v${val}`;
+        total += val;
+      });
+
+      let playerWins = false;
+      if (currentBet === 'low' && total <= 13) playerWins = true;
+      if (currentBet === 'mid' && total === 14) playerWins = true;
+      if (currentBet === 'high' && total >= 15) playerWins = true;
+
+      if (playerWins) {
+        status.innerText = `TOTAL: ${total} - YOU WIN! 🎰`;
+        status.style.color = "var(--gold)";
+      } else {
+        status.innerText = `TOTAL: ${total} - HOUSE WINS.`;
+        status.style.color = "#ff7675";
+      }
+      
+      btn.disabled = false;
+    }, 1800);
+  }
+</script>
+
+</body>
+</html>

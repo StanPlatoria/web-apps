@@ -1,0 +1,198 @@
+
+
+<h1 class="disco">
+  <span style="animation-delay:0s">Hello,</span>&nbsp;
+  <span style="animation-delay:.05s">Tacos!</span>
+</h1>
+
+<style>
+  body {
+    margin: 0;
+  }
+
+  .disco {
+    position: relative;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 4rem;
+    white-space: nowrap;
+    text-align: center;
+  }
+
+  .disco span {
+    display: inline-block;
+    animation: strobe 1s infinite steps(1);
+  }
+
+  # @keyframes strobe {
+  #   0%   { color: red;     opacity: 1; }
+  #   10%  { color: white;   opacity: 0.2; }
+  #   20%  { color: cyan;    opacity: 1; }
+  #   30%  { color: yellow;  opacity: 0.3; }
+  #   40%  { color: magenta; opacity: 1; }
+  #   50%  { color: lime;    opacity: 0.15; }
+  #   60%  { color: blue;    opacity: 1; }
+  #   70%  { color: orange;  opacity: 0.25; }
+  #   80%  { color: pink;    opacity: 1; }
+  #   90%  { color: white;   opacity: 0.1; }
+  #   100% { color: red;     opacity: 1; }
+  # }
+
+  @media (prefers-reduced-motion: reduce) {
+    .disco span {
+      animation: none;
+    }
+  }
+</style>
+
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  header {
+    text-align: center;
+    color: white;
+    margin-bottom: 40px;
+  }
+  
+  h1 {
+    font-size: 3em;
+    margin-bottom: 10px;
+  }
+  
+  .menu {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+  }
+  
+  .taco-card {
+    background: white;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    transition: transform 0.3s;
+  }
+  
+  .taco-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 12px rgba(0,0,0,0.2);
+  }
+  
+  .taco-card h3 {
+    color: #667eea;
+    margin-bottom: 10px;
+  }
+  
+  .price {
+    font-size: 1.5em;
+    color: #764ba2;
+    font-weight: bold;
+  }
+  
+  footer {
+    text-align: center;
+    color: white;
+    padding: 20px;
+    margin-top: 40px;
+  }
+</style>
+
+<div class="container">
+
+<style>
+  .wave span {
+    display: inline-block;
+    animation: wave 1.6s ease-in-out infinite;
+  }
+
+  @keyframes wave {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+</style>
+
+<header class="wave">
+  <p id="wave-text">🌮 There &nbsp;are &nbsp;too &nbsp;many &nbsp;tacos!!!! 🌮</p>
+</header>
+
+<script>
+  const el = document.getElementById("wave-text");
+  el.innerHTML = [...el.textContent]
+    .map((c, i) => `<span style="animation-delay:${i * 0.1}s">${c}</span>`)
+    .join("");
+</script>
+
+  
+  <div class="menu">
+    <div class="taco-card">
+      <h3>Al Pastor</h3>
+      <p>Marinated pork with pineapple, onions, and cilantro</p>
+      <div class="price">$4.99</div>
+<% fillings = ["Avocado", "Cheese", "Sour Cream"] %>
+      <ul>
+        <li>Avocado</li>
+        <li>Cheese</li>
+        <li>Sour Cream</li>
+      </ul>
+      <%for filling in fillings%>
+     <li><%= fillings[0] %></li>
+     <%end %>
+    </div>
+    
+    <div class="taco-card">
+      <h3>Carnitas</h3>
+      <p>Slow-cooked pulled pork with lime and fresh garnish</p>
+      <div class="price">$5.49</div>
+    </div>
+    
+    <div class="taco-card">
+      <h3>Fish Tacos</h3>
+      <p>Battered fish with cabbage slaw and chipotle sauce</p>
+      <div class="price">$5.99</div>
+    </div>
+    
+    <div class="taco-card">
+      <h3>Barbacoa</h3>
+      <p>Tender beef with peppers, onions, and salsa verde</p>
+      <div class="price">$5.49</div>
+    </div>
+    
+    <div class="taco-card">
+      <h3>Veggie Delight</h3>
+      <p>Grilled vegetables with queso fresco and avocado</p>
+      <div class="price">$4.49</div>
+    </div>
+    
+    <div class="taco-card">
+      <h3>Pollo Asado</h3>
+      <p>Grilled chicken with lemon, garlic, and cheese</p>
+      <div class="price">$4.99</div>
+    </div>
+  </div>
+  
+  <footer>
+    <p>&copy; 2024 Taco Paradise. Open Daily 11am - 10pm</p>
+  </footer>
+</div>
